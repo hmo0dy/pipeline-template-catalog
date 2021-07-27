@@ -14,11 +14,11 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'admin-cli-token', usernameVariable: 'JENKINS_CLI_USR', passwordVariable: 'JENKINS_CLI_PSW')]) {
           sh """
-            curl -O http://REPLACE_FOLDER_NAME-REPLACE_CONTROLLER_NAME/REPLACE_FOLDER_NAME-REPLACE_CONTROLLER_NAME/jnlpJars/jenkins-cli.jar
-            alias cli='java -jar jenkins-cli.jar -s http://REPLACE_FOLDER_NAME-REPLACE_CONTROLLER_NAME/REPLACE_FOLDER_NAME-REPLACE_CONTROLLER_NAME/ -auth $JENKINS_CLI_USR:$JENKINS_CLI_PSW'
+            curl -O http://hmo0dy-ahmed-07007-controller/hmo0dy-ahmed-07007-controller/jnlpJars/jenkins-cli.jar
+            alias cli='java -jar jenkins-cli.jar -s http://hmo0dy-ahmed-07007-controller/hmo0dy-ahmed-07007-controller/ -auth $JENKINS_CLI_USR:$JENKINS_CLI_PSW'
             cli pipeline-template-catalogs --put < create-pipeline-template-catalog.json
           """
-          pipelineCatalogLabCleanup('REPLACE_GITHUB_ORG')
+          pipelineCatalogLabCleanup('hmo0dy')
         }
       }
     }
