@@ -1,0 +1,21 @@
+library 'pipeline-library'
+pipeline {
+  agent none
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '2'))
+    skipDefaultCheckout true
+    timeout(time: 60, unit: 'MINUTES')
+  }
+  stages {
+    stage('Update Config Bundle') {
+      when {
+        beforeAgent true
+        branch 'main'
+        not { triggeredBy 'UserIdCause' }
+      }
+      steps {
+        configBundleUpdate()
+      }
+    }
+  }
+}
