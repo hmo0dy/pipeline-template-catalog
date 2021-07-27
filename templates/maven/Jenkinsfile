@@ -1,13 +1,26 @@
 library 'pipeline-library'
 pipeline {
   agent none
+  triggers {
+    eventTrigger jmespathQuery("event=='imagePush' && name=='maven'")
+  }
   options {
    timeout(time: 10, unit: 'MINUTES') 
   }
   stages {
     stage('Agent') {
       agent { label 'maven' }
-      stages {
+      stages { 
+        stage('Maven Image Push') {
+          agent any
+          when {
+            triggeredBy 'EventTriggerCause' 
+          }
+          steps {
+            getImageBuildEventPayload()
+            echo "new build image: ${env.EVENT_PUSH_IMAGE_NAME}:${env.EVENT_PUSH_IMAGE_TAG}"
+          }
+        }
         stage("Set GitHub Branch Protection") {
           when { 
             anyOf {
